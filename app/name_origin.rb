@@ -7,7 +7,7 @@ class NameOrigin
   NAME_ORIGIN_LIST = YAML.load_file('data/name_by_country.yml').tap { _1.default = [] }
 
   def initialize(name)
-    @name = name
+    @name = name.downcase.capitalize
   end
 
   def guess = NAME_ORIGIN_LIST[name]
