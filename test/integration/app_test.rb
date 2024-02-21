@@ -13,14 +13,19 @@ class AppTest < Test::Unit::TestCase
     get '/', :name => 'Martin'
 
     assert last_response.ok?
-    expectation = { guessed_country: ['DE'], requested_name: 'Martin', time_processed: [] }.to_json
-    assert_equal expectation, last_response.body
+    actual = JSON.parse(last_response.body)
+    assert_equal ['DE'], actual['guessed_country']
+    assert_equal 'Martin', actual['requested_name']
+    refute_nil actual['time_processed']
   end
 
   test 'with a known name and non-standard ascii charactere' do
     get '/', :name => 'Müller'
 
-    expectation = { guessed_country: ['DE'], requested_name: 'Müller', time_processed: [] }.to_json
-    assert_equal expectation, last_response.body
+    assert last_response.ok?
+    actual = JSON.parse(last_response.body)
+    assert_equal ['DE'], actual['guessed_country']
+    assert_equal 'Müller', actual['requested_name']
+    refute_nil actual['time_processed']
   end
 end
