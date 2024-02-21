@@ -13,6 +13,8 @@ class AppTest < Test::Unit::TestCase
     get '/', :name => 'Martin'
 
     assert last_response.ok?
+    expectation = { guessed_country: ['DE'], requested_name: 'Martin', time_processed: [] }.to_json
+    assert_equal expectation, last_response.body
   end
 
   test 'with a known name and non-standard ascii charactere' do
