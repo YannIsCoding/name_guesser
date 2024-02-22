@@ -28,4 +28,24 @@ class AppTest < Test::Unit::TestCase
     assert_equal 'Müller', actual['requested_name']
     refute_nil actual['time_processed']
   end
+
+  test 'with no parameter, return an empty response' do
+    get '/'
+
+    assert last_response.ok?
+    actual = JSON.parse(last_response.body)
+    assert_equal [], actual['guessed_country']
+    assert_equal nil, actual['requested_name']
+    refute_nil actual['time_processed']
+  end
+
+  test 'with another params than name, return an empty response' do
+    get '/', :truffle => 'Schwein'
+
+    assert last_response.ok?
+    actual = JSON.parse(last_response.body)
+    assert_equal [], actual['guessed_country']
+    assert_equal nil, actual['requested_name']
+    refute_nil actual['time_processed']
+  end
 end
